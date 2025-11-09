@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4 class="text-center mb-4">Welcome, {{ username }}</h4>
+
+<div class="row g-3 text-center">
+  <div class="col-6 col-md-3">
+    <div class="card shadow-soft bg-gradient-primary text-white">
+      <h6>Total</h6>
+      <p class="display-6">{{ summary.total }}</p>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-soft bg-gradient-warning text-dark">
+      <h6>Pending</h6>
+      <p class="display-6">{{ summary.pending }}</p>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-soft bg-gradient-success text-white">
+      <h6>Confirmed</h6>
+      <p class="display-6">{{ summary.confirm }}</p>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-soft bg-gradient-danger text-white">
+      <h6>Cancelled</h6>
+      <p class="display-6">{{ summary.cancel }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+  <h2 class="text-center mb-4">🚚 Track Order</h2>
+
+  <div class="card shadow-sm border-0 rounded-4 p-4 text-center">
+    <h5 class="fw-bold text-secondary mb-3">Consignment ID</h5>
+    <h4 class="fw-bold text-dark">{{ consignment_id }}</h4>
+
+    <div class="mt-4">
+      <span class="badge px-4 py-2 fs-6
+        {% if 'deliver' in delivery_status %} bg-success
+        {% elif 'pending' in delivery_status %} bg-warning text-dark
+        {% elif 'cancel' in delivery_status %} bg-danger
+        {% elif 'review' in delivery_status %} bg-info
+        {% else %} bg-secondary {% endif %}">
+        {{ delivery_status|capitalize }}
+      </span>
+    </div>
+
+    <p class="text-muted mt-3">Current delivery status for this consignment.</p>
+
+    <a href="{{ url_for('status') }}" class="btn btn-outline-primary mt-4 px-4 shadow-sm">
+      ⬅ Back to Status
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+body {
+  font-family: 'Noto Sans Bengali', sans-serif;
+  background: #f8f9fb;
+}
+
+.shadow-soft {
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  padding: 15px;
+  transition: .3s;
+}
+
+.shadow-soft:hover {
+  transform: translateY(-3px);
+}
+
+.bg-gradient-primary { background: linear-gradient(135deg,#007bff,#00b4d8); }
+.bg-gradient-success { background: linear-gradient(135deg,#28a745,#20c997); }
+.bg-gradient-danger { background: linear-gradient(135deg,#dc3545,#ff6b6b); }
+.bg-gradient-warning { background: linear-gradient(135deg,#ffc107,#ffcd39); }
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 15px;
+}
+
+.animate-fade {
+  animation: fadeIn .4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
