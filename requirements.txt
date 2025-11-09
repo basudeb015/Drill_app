@@ -1,1 +1,6 @@
-
+flask
+requests
+python-dotenv
+werkzeug
+flask-talisman
+gunicorn
