@@ -1,43 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container mt-4">
+  <h2 class="text-center fw-bold mb-4">📝 Add New Order</h2>
 
-<div class="container mt-5">
-  <div class="text-center mb-4">
-    <h2>📝 Add New Order</h2>
-    <p class="text-muted">Paste your customer message below — numbers in Bangla will convert automatically.</p>
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <form action="{{ url_for('entry') }}" method="post">
+        <div class="mb-3">
+          <label for="message" class="form-label fw-semibold">Paste Customer Order Message:</label>
+          <textarea name="message" id="message" class="form-control" rows="6" placeholder="Paste message here..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 py-2">Submit Order ➕</button>
+      </form>
+    </div>
   </div>
 
-  <div class="card shadow-sm border-0 rounded-4 p-4">
-    <form method="POST" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label for="message" class="form-label fw-semibold">Customer Order Message</label>
-        <textarea name="message" id="message" rows="8" class="form-control rounded-3" placeholder="Paste message here..." required></textarea>
-        <div class="invalid-feedback">
-          Please enter a valid order message.
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <a href="{{ url_for('status') }}" class="btn btn-outline-secondary px-4">⬅ Back</a>
-        <button type="submit" class="btn btn-success px-4 shadow-sm">💾 Save Order</button>
-      </div>
-    </form>
+  <div class="text-center mt-4">
+    <a href="{{ url_for('status') }}" class="btn btn-outline-secondary me-2">📋 View Orders</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">🏠 Back to Home</a>
   </div>
 </div>
-
-<!-- JavaScript: Auto convert Bangla digits to English -->
-<script>
-function bnToEn(str) {
-    const map = {'০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9'};
-    return str.replace(/[০-৯]/g, d => map[d]);
-}
-
-const textarea = document.getElementById('message');
-textarea.addEventListener('input', function() {
-    const cursorPos = this.selectionStart;
-    this.value = bnToEn(this.value);
-    this.selectionEnd = cursorPos; // keep cursor stable
-});
-</script>
-
 {% endblock %}

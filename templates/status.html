@@ -1,80 +1,44 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-  <h2 class="text-center mb-4">📦 Order Status</h2>
+  <h2 class="text-center fw-bold mb-4">📋 Order Status</h2>
 
-  {% if orders|length == 0 %}
-  <div class="alert alert-info text-center">
-    No orders yet. Add one from the <a href="{{ url_for('entry') }}">Entry page</a>.
-  </div>
-  {% else %}
-  <div class="row">
+  {% if orders %}
     {% for order in orders %}
-    <div class="col-md-6 col-lg-4 mb-4">
-      <div class="card shadow-sm border-0 rounded-3">
+      <div class="card mb-3 shadow-sm border-0">
         <div class="card-body">
-          <h6 class="card-title fw-bold text-secondary">Order #{{ order['id'] }}</h6>
-
-          <!-- Display customer message -->
-          <p class="card-text" style="white-space: pre-line;">{{ order['message'] }}</p>
-
-          <!-- Show only Consignment ID -->
+          <h6 class="text-muted">Order #{{ order['id'] }}</h6>
+          <pre class="mb-2" style="white-space: pre-wrap; word-wrap: break-word;">{{ order['message'] }}</pre>
+          
           {% if order['consignment_id'] %}
-          <p class="small mb-1">
-            <strong>Consignment:</strong> {{ order['consignment_id'] }}
-          </p>
+            <p class="mb-2"><strong>Consignment ID:</strong> {{ order['consignment_id'] }}</p>
           {% endif %}
 
-          <!-- Colored status badge -->
-          <span class="badge
-            {% if order['status'] == 'Pending' %} bg-warning text-dark
-            {% elif order['status'] == 'Confirm' %} bg-success
-            {% elif order['status'] == 'Cancel' %} bg-danger
-            {% else %} bg-secondary {% endif %}">
-            {{ order['status'] }}
-          </span>
-
-          <!-- Action buttons -->
-          <div class="d-flex flex-wrap mt-3 gap-2">
-            {% if order['status'] != 'Confirm' %}
-            <form method="get" action="{{ url_for('edit_order', order_id=order['id']) }}">
-              <button type="submit" class="btn btn-outline-warning btn-sm">
-                ✏️ Edit
-              </button>
+          <div class="d-flex flex-wrap gap-2 mt-3">
+            <form action="{{ url_for('update_status', order_id=order['id'], new_status='Pending') }}" method="post">
+              <button class="btn btn-outline-warning btn-sm">🕓 Pending</button>
             </form>
-
-            <form method="post" action="{{ url_for('update_status', order_id=order['id'], new_status='Confirm') }}">
-              <button type="submit" class="btn btn-outline-success btn-sm">
-                ✅ Confirm
-              </button>
+            <form action="{{ url_for('update_status', order_id=order['id'], new_status='Confirm') }}" method="post">
+              <button class="btn btn-outline-success btn-sm">✅ Confirm</button>
             </form>
-            {% endif %}
-
-            {% if order['status'] != 'Cancel' and order['status'] != 'Confirm' %}
-            <form method="post" action="{{ url_for('update_status', order_id=order['id'], new_status='Cancel') }}">
-              <button type="submit" class="btn btn-outline-danger btn-sm">
-                ❌ Cancel
-              </button>
+            <form action="{{ url_for('update_status', order_id=order['id'], new_status='Cancel') }}" method="post">
+              <button class="btn btn-outline-danger btn-sm">❌ Cancel</button>
             </form>
-            {% endif %}
 
             {% if order['consignment_id'] %}
-            <a href="{{ url_for('track_order', order_id=order['id']) }}" class="btn btn-outline-primary btn-sm">
-              🔍 Track
-            </a>
+            <a href="{{ url_for('track_order', order_id=order['id']) }}" class="btn btn-outline-info btn-sm">🚚 Track</a>
             {% endif %}
           </div>
         </div>
       </div>
-    </div>
     {% endfor %}
-  </div>
+  {% else %}
+    <div class="alert alert-secondary text-center">No orders found yet.</div>
+  {% endif %}
 
   <div class="text-center mt-4">
-    <a href="{{ url_for('track_all') }}" class="btn btn-primary px-4 py-2 shadow-sm">
-      🔁 Track All Orders
-    </a>
+    <a href="{{ url_for('entry') }}" class="btn btn-outline-primary me-2">➕ Add Order</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-secondary">🏠 Home</a>
   </div>
-  {% endif %}
 </div>
 {% endblock %}

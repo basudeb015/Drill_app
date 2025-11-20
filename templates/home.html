@@ -1,31 +1,39 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
-<h4 class="text-center mb-4">Welcome, {{ username }}</h4>
+<div class="container mt-3">
+  <h2 class="text-center fw-bold mb-4">📊 Dashboard Summary</h2>
+  
+  <div class="row g-3 text-center">
+    <div class="col-6 col-md-3">
+      <div class="card shadow-sm border-0 p-3 bg-primary text-white">
+        <h5>Total Orders</h5>
+        <h2>{{ summary.total }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card shadow-sm border-0 p-3 bg-warning text-dark">
+        <h5>Pending</h5>
+        <h2>{{ summary.pending }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card shadow-sm border-0 p-3 bg-success text-white">
+        <h5>Confirmed</h5>
+        <h2>{{ summary.confirm }}</h2>
+      </div>
+    </div>
+    <div class="col-6 col-md-3">
+      <div class="card shadow-sm border-0 p-3 bg-danger text-white">
+        <h5>Cancelled</h5>
+        <h2>{{ summary.cancel }}</h2>
+      </div>
+    </div>
+  </div>
 
-<div class="row g-3 text-center">
-  <div class="col-6 col-md-3">
-    <div class="card shadow-soft bg-gradient-primary text-white">
-      <h6>Total</h6>
-      <p class="display-6">{{ summary.total }}</p>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card shadow-soft bg-gradient-warning text-dark">
-      <h6>Pending</h6>
-      <p class="display-6">{{ summary.pending }}</p>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card shadow-soft bg-gradient-success text-white">
-      <h6>Confirmed</h6>
-      <p class="display-6">{{ summary.confirm }}</p>
-    </div>
-  </div>
-  <div class="col-6 col-md-3">
-    <div class="card shadow-soft bg-gradient-danger text-white">
-      <h6>Cancelled</h6>
-      <p class="display-6">{{ summary.cancel }}</p>
-    </div>
+  <div class="text-center mt-5">
+    <a href="{{ url_for('entry') }}" class="btn btn-outline-primary btn-lg me-2">📝 Add Order</a>
+    <a href="{{ url_for('status') }}" class="btn btn-outline-success btn-lg me-2">📋 View Status</a>
+    <a href="{{ url_for('track_all') }}" class="btn btn-outline-info btn-lg">🚚 Track All</a>
   </div>
 </div>
 {% endblock %}

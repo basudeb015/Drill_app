@@ -1,46 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-  <h2 class="text-center mb-4">🚚 Track All Orders</h2>
+<div class="container mt-4">
+  <h2 class="text-center fw-bold mb-4">🚚 Track All Orders</h2>
 
-  {% if results|length == 0 %}
-    <div class="alert alert-info text-center">
-      No orders with consignment IDs available to track.
+  {% if results %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body table-responsive">
+        <table class="table table-striped text-center align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Consignment ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in results %}
+            <tr>
+              <td>{{ r['consignment_id'] }}</td>
+              <td>
+                {% if r['status'] == 'delivered' %}
+                  <span class="badge bg-success">Delivered</span>
+                {% elif r['status'] == 'cancelled' %}
+                  <span class="badge bg-danger">Cancelled</span>
+                {% elif r['status'] == 'in_review' %}
+                  <span class="badge bg-warning text-dark">In Review</span>
+                {% else %}
+                  <span class="badge bg-secondary">{{ r['status'] }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   {% else %}
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle text-center shadow-sm rounded-3">
-        <thead class="table-light">
-          <tr>
-            <th class="py-3">Consignment ID</th>
-            <th class="py-3">Delivery Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for item in results %}
-          <tr>
-            <td class="fw-semibold">{{ item.consignment_id }}</td>
-            <td>
-              <span class="badge px-3 py-2 fs-6
-                {% if 'deliver' in item.status %} bg-success
-                {% elif 'pending' in item.status %} bg-warning text-dark
-                {% elif 'cancel' in item.status %} bg-danger
-                {% elif 'review' in item.status %} bg-info
-                {% else %} bg-secondary {% endif %}">
-                {{ item.status|capitalize }}
-              </span>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+    <div class="alert alert-secondary text-center">No consignments available yet.</div>
   {% endif %}
 
   <div class="text-center mt-4">
-    <a href="{{ url_for('status') }}" class="btn btn-outline-primary px-4 py-2 shadow-sm">
-      ⬅ Back to Status
-    </a>
+    <a href="{{ url_for('status') }}" class="btn btn-outline-secondary me-2">📋 Back to Orders</a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">🏠 Home</a>
   </div>
 </div>
 {% endblock %}

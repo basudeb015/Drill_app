@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-3">
+  <h2 class="text-center mb-4 fw-bold">👑 User Management</h2>
+
+  <!-- Add new user form -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h5 class="fw-bold mb-3">Add New User</h5>
+      <form action="{{ url_for('add_user') }}" method="post" class="row gy-2 gx-3 align-items-center">
+        <div class="col-md-3 col-12">
+          <input type="text" name="username" class="form-control" placeholder="Username" required>
+        </div>
+        <div class="col-md-3 col-12">
+          <input type="email" name="email" class="form-control" placeholder="Email" required>
+        </div>
+        <div class="col-md-3 col-12">
+          <input type="password" name="password" class="form-control" placeholder="Password" required>
+        </div>
+        <div class="col-md-2 col-6 form-check text-start ps-4">
+          <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin">
+          <label class="form-check-label" for="is_admin">Admin</label>
+        </div>
+        <div class="col-md-1 col-6 text-end">
+          <button type="submit" class="btn btn-primary w-100">➕</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Users Table -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h5 class="fw-bold mb-3">All Users</h5>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>ID</th>
+              <th>Email</th>
+              <th>Username</th>
+              <th>Role</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>{{ user['id'] }}</td>
+              <td>{{ user['email'] }}</td>
+              <td>{{ user['username'] }}</td>
+              <td>
+                {% if user['is_admin'] %}
+                  <span class="badge bg-success">Admin</span>
+                {% else %}
+                  <span class="badge bg-secondary">User</span>
+                {% endif %}
+              </td>
+              <td class="text-end">
+                <form action="{{ url_for('reset_user_password', user_id=user['id']) }}" method="post" class="d-inline">
+                  <input type="hidden" name="new_password" value="drill123">
+                  <button type="submit" class="btn btn-sm btn-outline-warning">🔑 Reset</button>
+                </form>
+                <form action="{{ url_for('delete_user', user_id=user['id']) }}" method="post" class="d-inline" onsubmit="return confirm('Delete this user?');">
+                  <button type="submit" class="btn btn-sm btn-outline-danger">🗑️ Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">🏠 Back to Home</a>
+  </div>
+</div>
+{% endblock %}
